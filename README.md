@@ -34,7 +34,7 @@
 
 #### Body
 
-- `provider`: Name of the provider responsable for the appointment.
+- `provider_id`: The id of the user of the provider;
 - `date`: Date in the format ISO-8859-1.
 
 ## List appointments
