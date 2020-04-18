@@ -63,6 +63,20 @@
 - `email`: Email of the user.
 - `password`: Password used in the login.
 
+## Add avatar to user
+
+#### URI
+
+- `/users/avatar`
+
+#### Method
+
+- `POST`
+
+#### Body
+
+- `avatar`: A multipart file.
+
 ## Create sessions token
 
 #### URI
