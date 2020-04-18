@@ -97,7 +97,9 @@ To run this project you need execute the following steps:
 
 4. Run compose: `docker-compose -d`
 
-5. Execute the project: `yarn dev:server`
+5. Execute the migrations: `yarn typeorm:migrate`
+
+6. Execute the project: `yarn dev:server`
 
 # What are the next steps?
 
