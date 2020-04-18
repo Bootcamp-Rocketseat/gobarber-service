@@ -101,7 +101,7 @@ To run this project you need execute the following steps:
 
 # What are the next steps?
 
-- [ ]
+- [ ] Migrate API documentation to the openapi
 
 ## License
 

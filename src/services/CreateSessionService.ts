@@ -4,6 +4,8 @@ import { sign } from 'jsonwebtoken';
 
 import User from '../models/User';
 
+import authConfig from '../config/auth';
+
 interface Request {
   email: string;
   password: string;
@@ -30,9 +32,11 @@ class CreateSessionService {
       throw new Error('Your email/password is incorrect.');
     }
 
-    const token = sign({}, 'e11965cffbc090da8549774b06a7728f', {
+    const { secret, expiresIn } = authConfig.jwt;
+
+    const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: '1d',
+      expiresIn,
     });
 
     return { user, token };
