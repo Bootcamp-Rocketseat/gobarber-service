@@ -63,6 +63,21 @@
 - `email`: Email of the user.
 - `password`: Password used in the login.
 
+## Create sessions token
+
+#### URI
+
+- `/sessions`
+
+#### Method
+
+- `POST`
+
+#### Body
+
+- `email`: Email of the user.
+- `password`: Password used in the login.
+
 # Prerequisites
 
 - Node
