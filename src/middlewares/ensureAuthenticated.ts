@@ -4,6 +4,8 @@ import { verify } from 'jsonwebtoken';
 
 import authConfig from '../config/auth';
 
+import AppError from '../errors/AppError';
+
 interface TokenPayload {
   iat: number;
   exp: number;
@@ -18,7 +20,7 @@ export default function ensureAuthenticated(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new Error('JWT token not provided');
+    throw new AppError('JWT token not provided', 401);
   }
 
   const [, token] = authHeader.split(' ');
@@ -34,6 +36,6 @@ export default function ensureAuthenticated(
 
     return next();
   } catch {
-    throw new Error('JWT token provided is invalid');
+    throw new AppError('JWT token provided is invalid', 401);
   }
 }
