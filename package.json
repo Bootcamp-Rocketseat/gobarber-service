@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc",
-    "dev:server": "ts-node-dev --inspect --transpileOnly --ignore-watch node_modules src/server.ts",
+    "dev:server": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
     "start": "ts-node src/index.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "typeorm:create": "ts-node-dev ./node_modules/typeorm/cli.js migration:create -n",
@@ -13,8 +13,10 @@
     "typeorm:reverse": "ts-node-dev ./node_modules/typeorm/cli.js migration:reverse"
   },
   "dependencies": {
+    "@types/cors": "^2.8.8",
     "@typescript-eslint/eslint-plugin": "^2.28.0",
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "date-fns": "^2.12.0",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
