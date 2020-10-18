@@ -21,7 +21,7 @@ class User {
   avatar: string;
 
   @Column()
-  password: string;
+  password?: string;
 
   @CreateDateColumn()
   created_at: Date;
