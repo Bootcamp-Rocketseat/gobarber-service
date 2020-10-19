@@ -20,7 +20,7 @@ interface IResponse {
 }
 
 @injectable()
-class CreateSessionService {
+class AuthenticateUsersService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -50,4 +50,4 @@ class CreateSessionService {
   }
 }
 
-export default CreateSessionService;
+export default AuthenticateUsersService;
