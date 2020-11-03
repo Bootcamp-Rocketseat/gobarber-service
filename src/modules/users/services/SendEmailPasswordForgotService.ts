@@ -30,11 +30,11 @@ class SendEmailPasswordForgotService {
       throw new AppError(`User with the email ${email} not exist`);
     }
 
-    await this.userTokensRepository.generate(user.id);
+    const { token } = await this.userTokensRepository.generate(user.id);
 
     await this.emailProvider.sendEmail(
       email,
-      'Você solicitou o reset da sua senha',
+      `Você solicitou o reset da sua senha: ${token}`,
     );
   }
 }
