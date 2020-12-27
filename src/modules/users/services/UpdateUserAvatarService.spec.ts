@@ -11,17 +11,23 @@ const fakeUserInfo = {
   password: '12345678',
 };
 
+let fakeUsersRepository: FakeUsersRepository;
+let fakeStorageProvider: FakeStorageProvider;
+let updateUserAvatarService: UpdateUserAvatarService;
+
 describe('UpdateUserAvatar', () => {
-  it('Should be able to update user avatar', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeStorageProvider = new FakeStorageProvider();
 
-    const user = await fakeUsersRepository.create(fakeUserInfo);
-
-    const updateUserAvatarService = new UpdateUserAvatarService(
+    updateUserAvatarService = new UpdateUserAvatarService(
       fakeUsersRepository,
       fakeStorageProvider,
     );
+  });
+
+  it('Should be able to update user avatar', async () => {
+    const user = await fakeUsersRepository.create(fakeUserInfo);
 
     const response = await updateUserAvatarService.execute({
       filename: 'new file',
@@ -32,14 +38,6 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('Should not be able to update user avatar when the user not exist', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
-    const updateUserAvatarService = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
-
     expect(
       updateUserAvatarService.execute({
         filename: 'new file',
@@ -49,17 +47,8 @@ describe('UpdateUserAvatar', () => {
   });
 
   it('Should be able to update user avatar when user avatar already exist', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeStorageProvider = new FakeStorageProvider();
-
     const deleteFile = jest.spyOn(fakeStorageProvider, 'deleteFile');
-
     const user = await fakeUsersRepository.create(fakeUserInfo);
-
-    const updateUserAvatarService = new UpdateUserAvatarService(
-      fakeUsersRepository,
-      fakeStorageProvider,
-    );
 
     await updateUserAvatarService.execute({
       filename: 'file.jpg',

@@ -9,30 +9,27 @@ const fakeUserInfo = {
   password: '12345678',
 };
 
-describe('CreateUser', () => {
-  it('Should be able to create a new user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUserService: CreateUserService;
 
-    const createUserService = new CreateUserService(
+describe('CreateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUserService = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
+  });
 
+  it('Should be able to create a new user', async () => {
     const user = await createUserService.execute(fakeUserInfo);
-
     expect(user).toHaveProperty('id');
   });
 
   it('Should not be able to create a new user with the same email', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     await createUserService.execute(fakeUserInfo);
 
     expect(createUserService.execute(fakeUserInfo)).rejects.toBeInstanceOf(

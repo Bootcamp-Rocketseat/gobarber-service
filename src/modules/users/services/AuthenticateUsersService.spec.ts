@@ -11,22 +11,30 @@ const fakeUserInfo = {
   password: '12345678',
 };
 
-describe('AuthenticateUser', () => {
-  it('Should be able to authenticate', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
+let fakeUsersRepository: FakeUsersRepository;
+let fakeHashProvider: FakeHashProvider;
+let createUserService: CreateUserService;
+let authenticateUsersService: AuthenticateUsersService;
 
-    const createUserService = new CreateUserService(
+describe('AuthenticateUser', () => {
+  beforeEach(() => {
+    fakeUsersRepository = new FakeUsersRepository();
+    fakeHashProvider = new FakeHashProvider();
+
+    createUserService = new CreateUserService(
       fakeUsersRepository,
       fakeHashProvider,
     );
+
+    authenticateUsersService = new AuthenticateUsersService(
+      fakeUsersRepository,
+      fakeHashProvider,
+    );
+  });
+
+  it('Should be able to authenticate', async () => {
     const user = await createUserService.execute(fakeUserInfo);
     expect(user).toHaveProperty('id');
-
-    const authenticateUsersService = new AuthenticateUsersService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
 
     const response = await authenticateUsersService.execute({
       email: fakeUserInfo.email,
@@ -39,14 +47,6 @@ describe('AuthenticateUser', () => {
   });
 
   it('Should not be able to authenticate with inexistent user', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const authenticateUsersService = new AuthenticateUsersService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
-
     expect(
       authenticateUsersService.execute({
         email: fakeUserInfo.email,
@@ -56,20 +56,8 @@ describe('AuthenticateUser', () => {
   });
 
   it('Should not be able to authenticate with wrong password', async () => {
-    const fakeUsersRepository = new FakeUsersRepository();
-    const fakeHashProvider = new FakeHashProvider();
-
-    const createUserService = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
     const user = await createUserService.execute(fakeUserInfo);
     expect(user).toHaveProperty('id');
-
-    const authenticateUsersService = new AuthenticateUsersService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
 
     expect(
       authenticateUsersService.execute({
