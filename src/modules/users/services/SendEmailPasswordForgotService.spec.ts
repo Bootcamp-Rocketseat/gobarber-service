@@ -36,10 +36,7 @@ describe('SendEmailPasswordForgot', () => {
     await fakeUsersRepository.create(fakeUserInfo);
     await sendEmailPasswordForgotService.execute({ email: fakeUserInfo.email });
 
-    expect(sendEmail).toHaveBeenCalledWith(
-      fakeUserInfo.email,
-      'Você solicitou o reset da sua senha',
-    );
+    expect(sendEmail).toHaveBeenCalled();
   });
 
   it('Should not be able to send an email to a no existent user', async () => {
