@@ -1,5 +1,5 @@
 import { injectable, inject } from 'tsyringe';
-import { startOfHour, isBefore } from 'date-fns';
+import { startOfHour, isBefore, getHours } from 'date-fns';
 import Appointment from '@modules/appointments/infra/typeorm/entities/Appointment';
 import AppError from '@shared/errors/AppError';
 import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
@@ -30,6 +30,12 @@ class CreateAppointmentService {
 
     if (user_id === provider_id) {
       throw new AppError("You can't create an appointment for yourself");
+    }
+
+    if (getHours(transformedDate) < 8 || getHours(transformedDate) > 17) {
+      throw new AppError(
+        'You can only create appountments between 8am and 5pm',
+      );
     }
 
     const hasAppointmentInTheDate = await this.appointmentsRepository.findByDate(
