@@ -5,6 +5,8 @@ dist
 build/
 
 tmp/*
+.env
+ormconfig.json
 !tmp/.gitkeep
 
 coverage/
